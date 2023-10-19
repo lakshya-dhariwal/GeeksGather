@@ -1,13 +1,6 @@
-# Sample Hardhat Project
+# Scroll Smart Contracts
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+[x] AllowListing Smart Contract - `https://sepolia.scrollscan.dev/address/0x39974b2f8e5ca69eea26005af01abde0a88c9bf1`
 
-Try running some of the following tasks:
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
-```
+
