@@ -24,12 +24,21 @@ function Home() {
         <article>
           <section className="section hero" aria-label="home">
             <div className="container">
-              <h1 className="headline-lg hero-title">Geeks gather</h1>
+              <h1 className="headline-lg hero-title">
+                {" "}
+                <img
+                  src="geeks-gather-large.png"
+                  alt=""
+                  className=" = mx-auto sm:visible"
+                />{" "}
+              </h1>
 
-              <p className="section-text body-lg">Gated Events</p>
+              <p className="section-text body-lg text-white">
+                Gated Communities with verified enthusiasts
+              </p>
 
               <a href="#" className="btn">
-                Show Events
+                Show Communities
               </a>
             </div>
           </section>
@@ -43,7 +52,7 @@ function Home() {
                 className="headline-md section-title text-center"
                 id="discover-label"
               >
-                Discover Events
+                Discover Communities
               </h2>
               {!Events ? (
                 <div className="w-full h-[800px] flex items-center justify-center">

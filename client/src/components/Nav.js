@@ -4,15 +4,17 @@ import { useAccount } from "wagmi";
 function Nav({ connect }) {
   const { isConnected } = useAccount();
   return (
-    <header className="header border-b-[1px] border-slate-700" data-header>
-      <div className="container max-h-[25px]">
-        <a href="/#"> <img
-          src="/images/logo.svg"
-          alt=""
-          height={25}
-          className="mr-[10px] h-[30px] sm:visible"
-        /> </a>
-        <h1 className=" gradient marginlogo text-xxl"> GeeksGather</h1>
+    <header className="header  border-b-[1px]  border-slate-700" data-header>
+      <div className="container max-h-[25px] ">
+        <a href="/#">
+          {" "}
+          <img
+            src="/GG.png"
+            alt="Geeks Gather"
+            height={25}
+            className="mr-[10px] h-[30px] sm:visible"
+          />{" "}
+        </a>
 
         <nav className="navbar" data-navbar>
           <ul className="navbar-list">

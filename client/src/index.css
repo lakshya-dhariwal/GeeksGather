@@ -198,7 +198,7 @@ html {
   font-family: var(--ff-urbanist);
   font-size: 10px;
   scroll-behavior: smooth;
-  
+
   overflow-x: hidden;
 }
 
@@ -410,7 +410,7 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  background-color: var(--oxford-blue-2);
+  background-color: #0e1829 !important;
   box-shadow: var(--shadow-1);
   padding-block: 16px;
   z-index: 4;
@@ -511,7 +511,6 @@ body {
 }
 
 .hero .section-text {
-  color: var(--white);
   opacity: 0.7;
   margin-block: 16px 32px;
 }
