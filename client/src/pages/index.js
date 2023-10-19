@@ -76,7 +76,7 @@ function Home() {
                         buttonOnClick={() => {
                           setLocation(`/community/${event.id}`);
                         }}
-                        buttonText={"Apply to attend"}
+                        buttonText={"Join the Cult"}
                       />
                     );
                   })}

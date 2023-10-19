@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Avvvatars from "avvvatars-react";
-import { HiLocationMarker } from "react-icons/hi";
+import { HiOutlineStatusOnline } from "react-icons/hi";
 import { MdAccessTimeFilled } from "react-icons/md";
 import { AiFillCalendar } from "react-icons/ai";
 import { motion } from "framer-motion";
@@ -41,14 +41,14 @@ const EventCard = ({ event, buttonText, buttonOnClick }) => {
         {event?.name}
       </h1>
       <div className="rounded-xl bg-[#1D2839] p-3 gap-y-3 grid grid-cols-2 ">
-        <div className="flex items-center">
+        {/* <div className="flex items-center">
           <AiFillCalendar />
           <span className="mx-2">{event?.on?.slice(0, 10)}</span>
         </div>
         <div className="flex items-center">
           <MdAccessTimeFilled />
           <span className="mx-2">{event?.on?.slice(11, 16)}</span>
-        </div>
+        </div> */}
         <div className="flex items-center">
           <div className="flex items-center -space-x-5 pointer-events-none">
             <Avvvatars
@@ -78,8 +78,8 @@ const EventCard = ({ event, buttonText, buttonOnClick }) => {
           </div>
         </div>
         <div className="flex items-center">
-          <HiLocationMarker />
-          <span className="mx-2"> Online</span>
+          <HiOutlineStatusOnline className="text-green-300" />
+          <span className="mx-2">3 Online</span>
         </div>
       </div>
       {buttonOnClick && (

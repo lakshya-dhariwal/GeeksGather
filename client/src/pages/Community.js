@@ -1,18 +1,17 @@
-import axios from "axios";
-import Room from "./Room";
 import Avvvatars from "avvvatars-react";
-import { AiFillCalendar } from "react-icons/ai";
-import { HiLocationMarker } from "react-icons/hi";
-import { MdAccessTimeFilled } from "react-icons/md";
-import { BsGithub } from "react-icons/bs";
+import axios from "axios";
 import React, { useEffect } from "react";
+import { toast } from "react-hot-toast";
+import { BiLinkAlt } from "react-icons/bi";
+import { BsGithub } from "react-icons/bs";
+import { HiOutlineStatusOnline } from "react-icons/hi";
 import { ImTicket } from "react-icons/im";
+import { MdQuiz } from "react-icons/md";
 import { useAccount } from "wagmi";
 import { useRoute } from "wouter";
-import supabase from "../services/supabase";
-import EventCard from "../components/EventCard";
 import Spinner from "../components/Spinner";
-import { toast } from "react-hot-toast";
+import supabase from "../services/supabase";
+import Room from "./Room";
 
 function Event() {
   const { address, isConnected } = useAccount();
@@ -152,14 +151,6 @@ function Event() {
             }
             <div className="rounded-xl bg-[#1D2839] p-3 gap-y-3 grid grid-cols-2 place-content-center w-[500px] m-2 mx-auto mb-10">
               <div className="flex items-center ml-20">
-                <AiFillCalendar />
-                <span className="mx-2">{event?.on?.slice(0, 10)}</span>
-              </div>
-              <div className="flex items-center ml-20">
-                <MdAccessTimeFilled />
-                <span className="mx-2">{event?.on?.slice(11, 16)}</span>
-              </div>
-              <div className="flex items-center ml-20">
                 <div className="flex items-center -space-x-5 pointer-events-none">
                   <Avvvatars
                     className="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800 pointer-events-none"
@@ -187,9 +178,9 @@ function Event() {
                   </a>
                 </div>
               </div>
-              <div className="flex items-center ml-20">
-                <HiLocationMarker />
-                <span className="mx-2"> Online</span>
+              <div className="flex items-center">
+                <HiOutlineStatusOnline className="text-green-300" />
+                <span className="mx-2">3 Online</span>
               </div>
             </div>
             <div className="bg-[#0E1729]  mt-5 mx-auto p-4 w-[500px]    relative group rounded-xl  pt-3  border border-slate-800 ">
@@ -197,28 +188,27 @@ function Event() {
                 <h1 className="font-semibold m-2 text-3xl text-gray-200">
                   Eligibility Checks{" "}
                 </h1>
-                <div className="border-[1px] rounded-full border-slate-600">
-                  <div className="text-xl h-fit mx-1 gradient text-gray-200  px-3  w-fit rounded-full">
-                    powered by ZK{" "}
-                  </div>
-                </div>
+                <div className=""></div>
               </div>
 
-              {/* <h1 className="text-gray-300 text-[18px] pt-3">Age Proof</h1>
-              <h2 className="text-[15px] mb-3">
-                Event requires minimum age of {event.age_req} years
+              <h1 className="text-gray-300 text-[18px]  pt-3">Guild Proof</h1>
+              <h2 className="text-[15px] mb-3 flex justify-between">
+                You must be part of Polygon Guild to join
               </h2>
-              <div className=" bg-[#0E1829]  border-[1px] border-gray-600 flex p-2 items-center justify-center rounded-full text-gray-100">
+              <div
+                onClick={githubZk}
+                className="mb-5 cursor-pointer bg-[#0E1829] border-[1px] border-gray-600 flex p-2 items-center justify-center rounded-full text-gray-100"
+              >
                 {" "}
-                <BsGithub className="mr-3" />
-                Prove with
-              </div> */}
+                <BiLinkAlt className="mr-3" />
+                {"Connect Guild"}
+              </div>
 
               <h1 className="text-gray-300 text-[18px]  pt-3">
                 Budiler's Proof
               </h1>
               <h2 className="text-[15px] mb-3 flex justify-between">
-                Event requires {event.git_req} repositories{" "}
+                Community requires {event.git_req} repositories{" "}
                 {proof && (
                   <span
                     className="text-purple-500 text-[13px] cursor-pointer"
@@ -236,6 +226,9 @@ function Event() {
                     copy verifiable claim
                   </span>
                 )}
+                <span className="text-xl h-fit mx-1 gradient text-gray-200  px-3  w-fit border-[1px] rounded-full border-slate-600">
+                  powered by ZK{" "}
+                </span>
               </h2>
 
               <div
@@ -247,15 +240,23 @@ function Event() {
                 {"Prove with Github"}
               </div>
 
-              {/* <h1 className="text-gray-300 text-[18px]  ">Twitter Proof</h1>
-              <h2 className="text-[15px] mb-3">
-                Event requires minimum {event.git_req} followers
+              <h1 className="text-gray-300 text-[18px]  pt-3 flex justify-between">
+                Knowledge Check{" "}
+                <span className="text-xl h-fit mx-1 gradient text-gray-200  px-3  w-fit border-[1px] rounded-full border-slate-600">
+                  powered by GPT{" "}
+                </span>
+              </h1>
+              <h2 className="text-[15px] mb-3 flex justify-between">
+                Prove your technical expertise by taking this AI generated Quiz
               </h2>
-              <div className="mb-10 bg-[#0E1829] border-[1px] border-gray-600 flex p-2 items-center justify-center rounded-full text-gray-100">
+              <div
+                onClick={githubZk}
+                className="mb-5 cursor-pointer bg-[#0E1829] border-[1px] border-gray-600 flex p-2 items-center justify-center rounded-full text-gray-100"
+              >
                 {" "}
-                <BsGithub className="mr-3" />
-                Prove with Github
-              </div> */}
+                <MdQuiz className="mr-3" />
+                {"Take the quiz"}
+              </div>
             </div>
             {eligiblity && (
               <div
