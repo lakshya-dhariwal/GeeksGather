@@ -15,12 +15,11 @@ import { useAccount } from "wagmi";
 import { Toaster } from "react-hot-toast";
 
 const chains = [filecoinHyperspace];
-const client = createClient(
-  getDefaultClient({
-    appName: "GeeksGather",
-    chains,
-  })
-);
+const client = createClient();
+// getDefaultClient({
+//   appName: "GeeksGather",
+//   chains,
+// })
 function App() {
   const { address } = useAccount();
   return (

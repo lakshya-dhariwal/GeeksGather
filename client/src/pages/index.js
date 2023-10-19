@@ -7,16 +7,16 @@ import { useAccount } from "wagmi";
 import useLocation from "wouter/use-location";
 
 function Home() {
-  const [Communities, setCommunities] = React.useState([]);
+  const [Events, setEvents] = React.useState([]);
   const { address, isConnected } = useAccount();
-  const fetchCommunities = async () => {
-    const { data, error } = await supabase.from("Communities").select("*");
+  const fetchEvents = async () => {
+    const { data, error } = await supabase.from("Events").select("*");
     console.log(error);
-    setCommunities(data);
+    setEvents(data);
   };
   const [location, setLocation] = useLocation();
   useEffect(() => {
-    fetchCommunities();
+    fetchEvents();
   }, []);
   return (
     <>
@@ -26,10 +26,10 @@ function Home() {
             <div className="container">
               <h1 className="headline-lg hero-title">Geeks gather</h1>
 
-              <p className="section-text body-lg">Gated communities</p>
+              <p className="section-text body-lg">Gated Events</p>
 
               <a href="#" className="btn">
-                Show Communities
+                Show Events
               </a>
             </div>
           </section>
@@ -43,15 +43,15 @@ function Home() {
                 className="headline-md section-title text-center"
                 id="discover-label"
               >
-                Discover Communities
+                Discover Events
               </h2>
-              {!Communities ? (
+              {!Events ? (
                 <div className="w-full h-[800px] flex items-center justify-center">
                   <Spinner size="4rem" />
                 </div>
               ) : (
                 <div className="grid grid-cols-3 gap-10">
-                  {Communities.map((event) => {
+                  {Events.map((event) => {
                     if (isConnected) {
                       if (
                         event.allowlist.includes(address) ||
