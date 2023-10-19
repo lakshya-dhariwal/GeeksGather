@@ -12,7 +12,7 @@ function Nav({ connect }) {
           height={25}
           className="mr-[10px] h-[30px] sm:visible"
         /> </a>
-        <h1 className=" gradient marginlogo text-xxl"> zkMeetups</h1>
+        <h1 className=" gradient marginlogo text-xxl"> GeeksGather</h1>
 
         <nav className="navbar" data-navbar>
           <ul className="navbar-list">

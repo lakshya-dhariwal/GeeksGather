@@ -17,7 +17,7 @@ import { Toaster } from "react-hot-toast";
 const chains = [filecoinHyperspace];
 const client = createClient(
   getDefaultClient({
-    appName: "zkMeetups",
+    appName: "GeeksGather",
     chains,
   })
 );
