@@ -23,7 +23,7 @@ function Hosting({ events }) {
                     event={event}
                     buttonText="Enter Room"
                     buttonOnClick={() => {
-                      setLocation(`/event/${event.id}`);
+                      setLocation(`/community/${event.id}`);
                     }}
                   />
                 );

@@ -46,7 +46,7 @@ function App() {
             <Route path="/host">
               <Host />
             </Route>
-            <Route path="/event/:id">
+            <Route path="/community/:id">
               <Community />
             </Route>
           </div>

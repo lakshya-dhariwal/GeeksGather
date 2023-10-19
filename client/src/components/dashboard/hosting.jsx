@@ -20,7 +20,7 @@ function Hosting({ events }) {
                     buttonText="See Applicants"
                     buttonOnClick={() => {
                       console.log("click");
-                      setLocation(`/event/${event.id}`);
+                      setLocation(`/community/${event.id}`);
                     }}
                   />
                 );

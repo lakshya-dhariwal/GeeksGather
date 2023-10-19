@@ -23,7 +23,7 @@ function Attended({ events }) {
                     event={event}
                     buttonText="See recording"
                     buttonOnClick={() => {
-                      setLocation(`/event/${event.id}`);
+                      setLocation(`/community/${event.id}`);
                     }}
                   />
                 );

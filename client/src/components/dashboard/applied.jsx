@@ -19,7 +19,7 @@ function Applied({ events }) {
                     event={event}
                     buttonText="Under review by host"
                     buttonOnClick={() => {
-                      setLocation(`/event/${event.id}`);
+                      setLocation(`/community/${event.id}`);
                     }}
                   />
                 );

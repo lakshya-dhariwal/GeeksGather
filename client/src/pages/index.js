@@ -65,7 +65,7 @@ function Home() {
                       <EventCard
                         event={event}
                         buttonOnClick={() => {
-                          setLocation(`/event/${event.id}`);
+                          setLocation(`/community/${event.id}`);
                         }}
                         buttonText={"Apply to attend"}
                       />

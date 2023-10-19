@@ -1,5 +1,5 @@
 import axios from "axios";
-import Meet from "./meet";
+import Room from "./Room";
 import Avvvatars from "avvvatars-react";
 import { AiFillCalendar } from "react-icons/ai";
 import { HiLocationMarker } from "react-icons/hi";
@@ -16,7 +16,7 @@ import { toast } from "react-hot-toast";
 
 function Event() {
   const { address, isConnected } = useAccount();
-  const [match, params] = useRoute("/event/:id");
+  const [match, params] = useRoute("/community/:id");
   console.log({ param: params.id });
   const [event, setEvent] = React.useState([]);
   const [readMore, setReadMore] = React.useState(false);
@@ -86,8 +86,8 @@ function Event() {
     setEligiblity(true);
   };
 
-  if (event?.host === address) return <Meet />;
-  else if (event?.allowlist?.includes(address)) return <Meet />;
+  if (event?.host === address) return <Room />;
+  else if (event?.allowlist?.includes(address)) return <Room />;
   else if (event?.applicants?.includes(address))
     return <h1>Your on event waitlist</h1>;
   else
