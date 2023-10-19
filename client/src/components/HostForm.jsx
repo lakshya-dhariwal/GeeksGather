@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import supabase from "../services/supabase";
 import { AllowListConfig } from "../contract/public";
-import { huddle_API } from "../services/supabase";
 import {
   useAccount,
   usePrepareContractWrite,
@@ -133,20 +132,7 @@ function HostForm({ scrollRef }) {
       twitter_req: twitterReq,
       on: e.target.elements.date.value,
     };
-    console.log(event_data);
-    const response = await axios.post(
-      "https://iriko.testing.huddle01.com/api/v1/create-room",
-      {
-        title: event_data.name,
-        hostWallets: [hostAddress],
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": huddle_API,
-        },
-      }
-    );
+
       console.log(response.data.data.roomId);
     const { data, error } = await supabase
       .from("Events")
