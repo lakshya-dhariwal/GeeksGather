@@ -1,10 +1,6 @@
 import { filecoinHyperspace } from "wagmi/chains";
-import {
-  ConnectKitProvider,
-  getDefaultClient,
-  ConnectKitButton,
-} from "connectkit";
-import { WagmiConfig, createClient } from "wagmi";
+import { ConnectKitProvider, ConnectKitButton } from "connectkit";
+import { publicProvider } from "wagmi/providers/public";
 import { Link, Route } from "wouter";
 import Home from "./pages/index";
 import Navbar from "./components/Nav";
@@ -14,12 +10,14 @@ import Host from "./pages/host";
 import { useAccount } from "wagmi";
 import { Toaster } from "react-hot-toast";
 
-const chains = [filecoinHyperspace];
-const client = createClient();
-// getDefaultClient({
-//   appName: "GeeksGather",
-//   chains,
-// })
+import { WagmiConfig, createClient } from "wagmi";
+import { getDefaultProvider } from "ethers";
+
+const client = createClient({
+  autoConnect: true,
+  provider: getDefaultProvider(),
+});
+
 function App() {
   const { address } = useAccount();
   return (
