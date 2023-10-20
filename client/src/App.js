@@ -9,6 +9,7 @@ import Dashboard from "./pages/dashboard";
 import Host from "./pages/host";
 import { useAccount } from "wagmi";
 import { Toaster } from "react-hot-toast";
+import Quiz from "./pages/quiz";
 
 import { WagmiConfig, createClient } from "wagmi";
 import { getDefaultProvider } from "ethers";
@@ -47,6 +48,12 @@ function App() {
             <Route path="/community/:id">
               <Community />
             </Route>
+            <Route path="/community/:id/quiz">
+              <Quiz />
+            </Route>
+            {/* <Route path="/community/:id/room">
+              <Community />
+            </Route> */}
           </div>
         </ConnectKitProvider>
       </WagmiConfig>

@@ -7,11 +7,11 @@ export const quizController = async (req: Request, res: Response) => {
     let questions;
     const amount = 10;
 
-    questions = await strict_output(
+    const a = await strict_output(
       `You are a helpful AI that is assigned to Create a set of multiple-choice questions (MCQs) about ${topic}. These questions will be used to evaluate the technical knowledge of individuals applying to join the ReactJS community. For each question, provide four answer options, with one correct answer. Ensure that each answer and question is concise, with answers not exceeding 15 words . These question test ability and knowledge about the topic and help us knw if we should select them for our exclusive community of enthusiasts . the community is for ${topic} . Only ask technical questions`,
-      new Array(amount).fill(
-        `You are to generate a random mcq question to test the user`
-      ),
+      // new Array(amount).fill(
+      `You are to generate a random mcq question to test the user`,
+      // ),
       {
         question: "question",
         explanation: "Explanation of answer",
@@ -23,6 +23,7 @@ export const quizController = async (req: Request, res: Response) => {
           "correct option number. Option number of the option that is the answer",
       }
     );
+    questions = [a];
     const quiz = questions.map((q: any) => {
       return {
         question: q?.question,
