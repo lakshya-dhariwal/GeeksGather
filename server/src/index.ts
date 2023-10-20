@@ -9,6 +9,9 @@ import {
   generateProofAge,
 } from "./lib/zkutils.js";
 
+//ROUTES
+import GPTRoutes from "./modules/gpt/gpt.routes";
+
 const app = express();
 const port = 8080;
 const corsOptions = {
@@ -32,6 +35,9 @@ app.get("/", (req, res) => {
   });
 });
 
+//GPT Routes
+app.use("/api/gpt", GPTRoutes);
+
 // Twitter Verification
 app.get("/api/twitter/generate-call-data", async (req, res, next) => {
   try {
@@ -39,26 +45,30 @@ app.get("/api/twitter/generate-call-data", async (req, res, next) => {
     const followers = req.query.followers;
     const threshold = req.query.threshold;
     // check if creditScore is a number
-    if (isNaN(followers) && isNaN(threshold)) {
+    if (isNaN(followers as any as any) && isNaN(threshold as any as any)) {
       return res.status(400).send("followers must be a number");
     }
-    const { a, b, c, Input } = await generateCallDataTwitter(
-      followers,
-      threshold
-    );
+    const data = await generateCallDataTwitter(followers, threshold);
 
-    if (a === null || b === null || c === null || Input === null) {
+    if (
+      data?.a === null ||
+      data?.b === null ||
+      data?.c === null ||
+      data?.Input === null
+    ) {
       return res.status(400).send("Error generating call data");
     }
 
     console.log("Call Data Generated");
-    console.log("a", a);
-    console.log("b", b);
-    console.log("c", c);
-    console.log("Input", Input);
-    return res.status(200).send({ a, b, c, Input });
+    console.log("a", data?.a);
+    console.log("b", data?.b);
+    console.log("c", data?.c);
+    console.log("Input", data?.Input);
+    return res
+      .status(200)
+      .send({ a: data?.a, b: data?.b, c: data?.c, Input: data?.Input });
   } catch (err) {
-    console.log(`Error Message ${err.message}`);
+    console.log(`Error Message ${err}`);
     next(err);
   }
 });
@@ -69,11 +79,10 @@ app.post("/api/twitter/verify-proof", async (req, res, next) => {
     const result = await verifyProofCmp(proof, publicSignals);
     return res.status(200).json({ result });
   } catch (error) {
-    console.log(`Error Message ${error.message}`);
+    console.log(`Error Message ${error}`);
     next(error);
   }
 });
-
 
 app.get("/api/twitter/generate-proof", async (req, res, next) => {
   try {
@@ -81,25 +90,23 @@ app.get("/api/twitter/generate-proof", async (req, res, next) => {
     const followers = req.query.followers;
     const threshold = req.query.threshold;
     // check if creditScore is a number
-    if (isNaN(followers) && isNaN(threshold)) {
+    if (isNaN(followers as any) && isNaN(threshold as any)) {
       return res.status(400).send("Followes and Threshold must be a number");
     }
-    const { proof, publicSignals } = await generateProofTwitter(
-      followers,
-      threshold
-    );
+    const p = await generateProofTwitter(followers, threshold);
 
     // check if proofJson is null
-    if (proof == null) {
+    if (p?.proof == null) {
       return res.status(400).send("creditScore must more than 15");
     }
-    return res.status(200).json({ proof, publicSignals });
+    return res
+      .status(200)
+      .json({ proof: p?.proof, publicSignals: p?.publicSignals });
   } catch (error) {
-    console.log(`Error Message ${error.message}`);
+    console.log(`Error Message ${error}`);
     next(error);
   }
 });
-
 
 // Age Verification
 app.get("/api/age/generate-call-data", async (req, res, next) => {
@@ -107,23 +114,30 @@ app.get("/api/age/generate-call-data", async (req, res, next) => {
     console.log("Generating proof...");
     const age = req.query.age;
     // check if age is a number
-    if (isNaN(age)) {
+    if (isNaN(age as any)) {
       return res.status(400).send("age must be a number");
     }
-    const { a, b, c, Input } = await generateCallDataAge(age);
+    const data = await generateCallDataAge(age);
 
-    if (a === null || b === null || c === null || Input === null) {
+    if (
+      data?.a === null ||
+      data?.b === null ||
+      data?.c === null ||
+      data?.Input === null
+    ) {
       return res.status(400).send("Error generating call data");
     }
 
     console.log("Call Data Generated");
-    console.log("a", a);
-    console.log("b", b);
-    console.log("c", c);
-    console.log("Input", Input);
-    return res.status(200).send({ a, b, c, Input });
+    console.log("a", data?.a);
+    console.log("b", data?.b);
+    console.log("c", data?.c);
+    console.log("Input", data?.Input);
+    return res
+      .status(200)
+      .send({ a: data?.a, b: data?.b, c: data?.c, Input: data?.Input });
   } catch (error) {
-    console.log(`Error Message ${error.message}`);
+    console.log(`Error Message ${error}`);
     next(error);
   }
 });
@@ -133,22 +147,23 @@ app.get("/api/age/generate-proof", async (req, res, next) => {
     console.log("Generating proof...");
     const age = req.query.age;
     // check if age is a number
-    if (isNaN(age)) {
+    if (isNaN(age as any)) {
       return res.status(400).send("creditScore must be a number");
     }
-    const { proof, publicSignals } = await generateProofAge(age);
+    const p = await generateProofAge(age);
 
     // check if proofJson is null
-    if (proof == null) {
+    if (p?.proof == null) {
       return res.status(400).send("age must more than 18");
     }
-    return res.status(200).json({ proof, publicSignals });
+    return res
+      .status(200)
+      .json({ proof: p?.proof, publicSignals: p?.publicSignals });
   } catch (error) {
-    console.log(`Error Message ${error.message}`);
+    console.log(`Error Message ${error}`);
     next(error);
   }
 });
-
 
 app.post("/api/age/verify-proof", async (req, res, next) => {
   try {
@@ -156,7 +171,7 @@ app.post("/api/age/verify-proof", async (req, res, next) => {
     const result = await verifyProofAge(proof, publicSignals);
     return res.status(200).json({ result });
   } catch (error) {
-    console.log(`Error Message ${error.message}`);
+    console.log(`Error Message ${error}`);
     next(error);
   }
 });

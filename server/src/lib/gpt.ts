@@ -1,33 +1,38 @@
 import { Configuration, OpenAIApi } from "openai";
+import { OPENAI_API_KEY } from "../config";
 
 const configuration = new Configuration({
   apiKey: OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
+interface OutputFormat {
+  [key: string]: string | string[] | OutputFormat;
+}
+
 export async function strict_output(
-  system_prompt,
-  user_prompt,
-  output_format,
-  default_category,
-  output_value_only,
-  model = "gpt-3.5-turbo",
-  temperature = 1,
-  num_tries = 3,
-  verbose = false
-) {
+  system_prompt: string,
+  user_prompt: string | string[],
+  output_format: OutputFormat,
+  default_category: string = "",
+  output_value_only: boolean = false,
+  model: string = "gpt-3.5-turbo",
+  temperature: number = 1,
+  num_tries: number = 3,
+  verbose: boolean = false
+): Promise<any> {
   // if the user input is in a list, we also process the output as a list of json
-  const list_input = Array.isArray(user_prompt);
+  const list_input: boolean = Array.isArray(user_prompt);
   // if the output format contains dynamic elements of < or >, then add to the prompt to handle dynamic elements
-  const dynamic_elements = /<.*?>/.test(JSON.stringify(output_format));
+  const dynamic_elements: boolean = /<.*?>/.test(JSON.stringify(output_format));
   // if the output format contains list elements of [ or ], then we add to the prompt to handle lists
-  const list_output = /\[.*?\]/.test(JSON.stringify(output_format));
+  const list_output: boolean = /\[.*?\]/.test(JSON.stringify(output_format));
 
   // start off with no error message
-  let error_msg = "";
+  let error_msg: string = "";
 
   for (let i = 0; i < num_tries; i++) {
-    let output_format_prompt = `\nYou are to output the following in json format: ${JSON.stringify(
+    let output_format_prompt: string = `\nYou are to output the following in json format: ${JSON.stringify(
       output_format
     )}. \nDo not put quotation marks or escape character \\ in the output fields.`;
 
@@ -58,7 +63,7 @@ export async function strict_output(
       ],
     });
 
-    let res =
+    let res: string =
       response.data.choices[0].message?.content?.replace(/'/g, '"') ?? "";
 
     // ensure that we don't replace away apostrophes in text
@@ -75,7 +80,7 @@ export async function strict_output(
 
     // try-catch block to ensure output format is adhered to
     try {
-      let output = JSON.parse(res);
+      let output: any = JSON.parse(res);
 
       if (list_input) {
         if (!Array.isArray(output)) {
@@ -100,7 +105,7 @@ export async function strict_output(
 
           // check that one of the choices given for the list of words is an unknown
           if (Array.isArray(output_format[key])) {
-            const choices = output_format[key];
+            const choices = output_format[key] as string[];
             // ensure output is not a list
             if (Array.isArray(output[index][key])) {
               output[index][key] = output[index][key][0];

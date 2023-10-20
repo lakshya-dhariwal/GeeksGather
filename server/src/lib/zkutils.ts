@@ -1,9 +1,10 @@
+// @ts-nocheck
 import * as snarkjs from "snarkjs";
 import {
   wrongProof,
   wrongPublicSignals,
 } from "../public/creditScoreWrongProof.js";
-import {cmp,vk_age} from "../public/vk.js"
+import { cmp, vk_age } from "../public/vk.js";
 
 const CreditScoreWasmPath = "./src/public/creditScoreCircuit.wasm";
 const CreditScoreFinalZkeyPath = "./src/public/creditScoreCircuit_0001.zkey";
@@ -48,24 +49,14 @@ export async function generateCallDataAge(age) {
 }
 
 export async function verifyProofAge(proofJson, publicSignals) {
-  
-  const result = await snarkjs.groth16.verify(
-      vk_age,
-      publicSignals,
-      proofJson
-  );
+  const result = await snarkjs.groth16.verify(vk_age, publicSignals, proofJson);
 
   // Returns true if the proof is valid
   return result;
 }
 
 export async function verifyProofCmp(proofJson, publicSignals) {
-  
-  const result = await snarkjs.groth16.verify(
-      cmp,
-      publicSignals,
-      proofJson
-  );
+  const result = await snarkjs.groth16.verify(cmp, publicSignals, proofJson);
 
   // Returns true if the proof is valid
   return result;
