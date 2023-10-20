@@ -16,7 +16,7 @@ contract Allowlist {
         require(!allowlists[_id].initialized, "Allowlist already exists");
         allowlists[_id].mod = msg.sender;
         allowlists[_id].initialized = true; // Mark the allowlist as initialized
-        allowlistCounter++; // Increment the counter for the next allowlist
+        allowlistCounter++; // Incremen t the counter for the next allowlist
         return _id;
     }
 
