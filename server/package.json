@@ -16,7 +16,6 @@
     "@types/snarkjs": "^0.7.6",
     "nodemon": "^2.0.21"
   },
-  "type": "module",
   "scripts": {
     "build": "tsc",
     "start": "npm run build && node build/index.js",

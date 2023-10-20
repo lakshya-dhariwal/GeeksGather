@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Application } from "express";
 import cors from "cors";
 import {
   verifyProofAge,
@@ -12,7 +12,7 @@ import {
 //ROUTES
 import GPTRoutes from "./modules/gpt/gpt.routes";
 
-const app = express();
+const app: Application = express();
 const port = 8080;
 const corsOptions = {
   // To allow requests from client
