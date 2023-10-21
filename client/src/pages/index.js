@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
-import Spinner from "../components/Spinner";
-import { Link, Route, useRouter } from "wouter";
-import supabase from "../services/supabase";
-import EventCard from "../components/EventCard";
 import { useAccount } from "wagmi";
 import useLocation from "wouter/use-location";
+import EventCard from "../components/EventCard";
+import Spinner from "../components/Spinner";
+import supabase from "../services/supabase";
 
 function Home() {
   const [Events, setEvents] = React.useState([]);
@@ -75,6 +74,40 @@ function Home() {
               )}
             </div>
           </section>
+          {address && (
+            <section>
+              <div className="container">
+                <h2
+                  className="headline-md section-title text-center"
+                  id="discover-label"
+                >
+                  GG says GM!
+                </h2>
+                {!Events ? (
+                  <div className="w-full h-[800px] flex items-center justify-center">
+                    <Spinner size="4rem" />
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-3 gap-10">
+                    {Events.map((event) => {
+                      if (event.allowlist.includes(address)) {
+                        return (
+                          <EventCard
+                            event={event}
+                            buttonOnClick={() => {
+                              setLocation(`/community/${event.id}/room`);
+                            }}
+                            buttonText={"Join the room"}
+                          />
+                        );
+                      }
+                      return null;
+                    })}
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
         </article>
       </main>
 

@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { API, TEST_QUESTION } from "../config";
-import axios from "axios";
 import Quiz from "react-quiz-component";
+import { useAccount } from "wagmi";
+import { useRoute } from "wouter";
+import { TEST_QUESTION } from "../config";
+import supabase from "../services/supabase";
 
 function QuizPage() {
   const [questions, setQuestions] = useState(null);
+  const [address] = useAccount();
+  const [match, params] = useRoute("/community/:id");
   const getQuiz = async () => {
     // const data = await axios.post(API + "/gpt/quiz", { topic: "ReactJS" });
     // setQuestions(data?.data?.quiz);
@@ -14,15 +18,43 @@ function QuizPage() {
   useEffect(() => {
     getQuiz();
   }, []);
-
-  const handleResult = (obj) => {
-    const percentage = obj.correctPoints / obj.totalPoints;
+  const setQuizCompleted = async (percentage) => {
     if (percentage > 50) {
       console.log("You passed");
-
+      //todo push notif
+      const { data, error } = await supabase
+        .from("Events")
+        .update({
+          quiz_completed: supabase.sql(
+            `array_append(quiz_completed, '${address}')`
+          ),
+        })
+        .match({ id: params.id });
+      console.log(data);
     } else {
       console.log("You failed");
     }
+  };
+
+  const handleResult = (obj) => {
+    const percentage = (obj.correctPoints / obj.totalPoints) * 100;
+    setQuizCompleted(percentage);
+  };
+  const renderCustomResultPage = (obj) => {
+    const percentage = (obj.correctPoints / obj.totalPoints) * 100;
+    return (
+      <div>
+        <h1 className="text-white text-[3rem]">
+          {percentage > 50
+            ? "🎉 Congratulations you cleared the knowledge check"
+            : "😅 Sorry! You failed the skill check."}
+        </h1>
+
+        <h2 className="mt-2 text-[2rem]">
+          Score: {obj.correctPoints}/{obj.totalPoints}
+        </h2>
+      </div>
+    );
   };
 
   return (
@@ -36,8 +68,9 @@ function QuizPage() {
               nrOfQuestions: questions.length,
               questions,
             }}
-            showDefaultResult={true}
             onComplete={handleResult}
+            showDefaultResult={false}
+            customResultPage={renderCustomResultPage}
           />{" "}
         </div>
       ) : null}

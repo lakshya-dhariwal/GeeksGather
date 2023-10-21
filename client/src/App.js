@@ -10,9 +10,13 @@ import Host from "./pages/host";
 import { useAccount } from "wagmi";
 import { Toaster } from "react-hot-toast";
 import Quiz from "./pages/quiz";
+// Import Push SDK & Ethers
+import { PushAPI } from "@pushprotocol/restapi";
+import { ethers } from "ethers";
 
 import { WagmiConfig, createClient } from "wagmi";
 import { getDefaultProvider } from "ethers";
+import Room from "./pages/Room";
 
 const client = createClient({
   autoConnect: true,
@@ -52,6 +56,9 @@ function App() {
                 </Route>
                 <Route path="/community/:id/quiz">
                   <Quiz />
+                </Route>
+                <Route path="/community/:id/room">
+                  <Room />
                 </Route>
               </>
             )}
