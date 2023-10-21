@@ -61,15 +61,6 @@ function Home() {
               ) : (
                 <div className="grid grid-cols-3 gap-10">
                   {Events.map((event) => {
-                    if (isConnected) {
-                      if (
-                        event.allowlist.includes(address) ||
-                        event.host === address ||
-                        event.applicants.includes(address)
-                      ) {
-                        return null;
-                      }
-                    }
                     return (
                       <EventCard
                         event={event}

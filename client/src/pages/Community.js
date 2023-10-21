@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { BiLinkAlt } from "react-icons/bi";
 import { BsGithub } from "react-icons/bs";
+import { AiFillCheckCircle } from "react-icons/ai";
 import { HiOutlineStatusOnline } from "react-icons/hi";
 import { ImTicket } from "react-icons/im";
 import { MdQuiz } from "react-icons/md";
@@ -12,9 +13,11 @@ import { useRoute } from "wouter";
 import Spinner from "../components/Spinner";
 import supabase from "../services/supabase";
 import Room from "./Room";
+import { useLocation } from "wouter";
 
 function Event() {
   const { address, isConnected } = useAccount();
+  const [location, setLocation] = useLocation();
   const [match, params] = useRoute("/community/:id");
   console.log({ param: params.id });
   const [event, setEvent] = React.useState([]);
@@ -196,11 +199,21 @@ function Event() {
                 You must be part of Polygon Guild to join
               </h2>
               <div
-                onClick={githubZk}
-                className="mb-5 cursor-pointer bg-[#0E1829] border-[1px] border-gray-600 flex p-2 items-center justify-center rounded-full text-gray-100"
+                onClick={() => {
+                  //todo guild connect
+                }}
+                className={`${
+                  event?.guild_completed?.includes(address)
+                    ? "pointer-events-none border-green-400"
+                    : "border-gray-600"
+                } mb-5 cursor-pointer bg-[#0E1829] border-[1px]  flex p-2 items-center justify-center rounded-full text-gray-100`}
               >
-                {" "}
-                <BiLinkAlt className="mr-3" />
+                {event?.guild_completed?.includes(address) ? (
+                  <AiFillCheckCircle className="mr-3 text-green-400" />
+                ) : (
+                  <BiLinkAlt className="mr-3" />
+                )}
+
                 {"Connect Guild"}
               </div>
 
@@ -233,10 +246,18 @@ function Event() {
 
               <div
                 onClick={githubZk}
-                className="mb-5 cursor-pointer bg-[#0E1829] border-[1px] border-gray-600 flex p-2 items-center justify-center rounded-full text-gray-100"
+                className={`${
+                  event?.github_completed?.includes(address)
+                    ? "pointer-events-none border-green-400"
+                    : "border-gray-600"
+                } mb-5 cursor-pointer bg-[#0E1829] border-[1px]  flex p-2 items-center justify-center rounded-full text-gray-100`}
               >
                 {" "}
-                <BsGithub className="mr-3" />
+                {event?.github_completed?.includes(address) ? (
+                  <AiFillCheckCircle className="mr-3 text-green-400" />
+                ) : (
+                  <BsGithub className="mr-3" />
+                )}
                 {"Prove with Github"}
               </div>
 
@@ -250,11 +271,21 @@ function Event() {
                 Prove your technical expertise by taking this AI generated Quiz
               </h2>
               <div
-                onClick={githubZk}
-                className="mb-5 cursor-pointer bg-[#0E1829] border-[1px] border-gray-600 flex p-2 items-center justify-center rounded-full text-gray-100"
+                onClick={() => {
+                  setLocation(`/community/${params?.id}/quiz`);
+                }}
+                className={`${
+                  event?.quiz_completed?.includes(address)
+                    ? "pointer-events-none border-green-400"
+                    : "border-gray-600"
+                } mb-5 cursor-pointer bg-[#0E1829] border-[1px]  flex p-2 items-center justify-center rounded-full text-gray-100`}
               >
-                {" "}
-                <MdQuiz className="mr-3" />
+                {event?.quiz_completed?.includes(address) ? (
+                  <AiFillCheckCircle className="mr-3 text-green-400" />
+                ) : (
+                  <MdQuiz className="mr-3" />
+                )}
+
                 {"Take the quiz"}
               </div>
             </div>

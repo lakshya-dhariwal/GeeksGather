@@ -39,18 +39,23 @@ function App() {
             <Route path="/">
               <Home />
             </Route>
-            <Route path="/dashboard">
-              <Dashboard />
-            </Route>
-            <Route path="/host">
-              <Host />
-            </Route>
-            <Route path="/community/:id">
-              <Community />
-            </Route>
-            <Route path="/community/:id/quiz">
-              <Quiz />
-            </Route>
+            {address && (
+              <>
+                <Route path="/dashboard">
+                  <Dashboard />
+                </Route>
+                <Route path="/host">
+                  <Host />
+                </Route>
+                <Route path="/community/:id">
+                  <Community />
+                </Route>
+                <Route path="/community/:id/quiz">
+                  <Quiz />
+                </Route>
+              </>
+            )}
+
             {/* <Route path="/community/:id/room">
               <Community />
             </Route> */}

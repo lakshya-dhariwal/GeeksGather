@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { API } from "../config";
+import { API, TEST_QUESTION } from "../config";
 import axios from "axios";
 import Quiz from "react-quiz-component";
 
@@ -9,32 +9,24 @@ function QuizPage() {
     // const data = await axios.post(API + "/gpt/quiz", { topic: "ReactJS" });
     // setQuestions(data?.data?.quiz);
     //dont use api for testing to save credits
-    setQuestions([
-      {
-        question: "What is JSX in ReactJS?",
-        questionType: "text",
-        answerSelectionType: "single",
-        answers: [
-          "A component in ReactJS",
-          "A JavaScript Library",
-          "A syntax extension for JavaScript",
-          "A package manager for ReactJS",
-        ],
-        correctAnswer: "3",
-        messageForCorrectAnswer: "Correct answer. Good job.",
-        messageForIncorrectAnswer: "Incorrect answer. Please try again.",
-        explanation:
-          "JSX is a syntax extension for JavaScript, used to write HTML-like code in React.",
-        point: "10",
-      },
-    ]);
+    setQuestions(TEST_QUESTION);
   };
   useEffect(() => {
     getQuiz();
   }, []);
 
+  const handleResult = (obj) => {
+    const percentage = obj.correctPoints / obj.totalPoints;
+    if (percentage > 50) {
+      console.log("You passed");
+
+    } else {
+      console.log("You failed");
+    }
+  };
+
   return (
-    <div className="max-w-[700px] mt-[10rem] mx-auto">
+    <div className="max-w-[700px] mt-[10rem] mx-auto bg-[#0E1729]  relative group rounded-xl p-3 pt-3 w-fit border border-slate-800 ">
       {questions ? (
         <div>
           {" "}
@@ -44,7 +36,8 @@ function QuizPage() {
               nrOfQuestions: questions.length,
               questions,
             }}
-            showDefaultResult={false}
+            showDefaultResult={true}
+            onComplete={handleResult}
           />{" "}
         </div>
       ) : null}
