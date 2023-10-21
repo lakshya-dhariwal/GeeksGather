@@ -1,3 +1,4 @@
+import { ReadDocumentContentToSupbaseDBTable } from "../../lib/embeddings";
 import { strict_output } from "../../lib/gpt";
 import { Request, Response } from "express";
 
@@ -5,13 +6,11 @@ export const quizController = async (req: Request, res: Response) => {
   try {
     const { topic } = req?.body;
     let questions;
-    const amount = 10;
+    const amount = 5;
 
     const a = await strict_output(
-      `You are a helpful AI that is assigned to Create a set of multiple-choice questions (MCQs) about ${topic}. These questions will be used to evaluate the technical knowledge of individuals applying to join the ReactJS community. For each question, provide four answer options, with one correct answer. Ensure that each answer and question is concise, with answers not exceeding 15 words . These question test ability and knowledge about the topic and help us knw if we should select them for our exclusive community of enthusiasts . the community is for ${topic} . Only ask technical questions`,
-      // new Array(amount).fill(
-      `You are to generate a random mcq question to test the user`,
-      // ),
+      `You are a helpful AI that is assigned to Create a set of multiple-choice questions (MCQs) about ${topic}. These questions will be used to evaluate the technical knowledge of individuals applying to join the ReactJS community. For each question, provide four answer options, with one correct answer. Ensure that each answer and question is concise, with answers not exceeding 15 words . These question test ability and knowledge about the topic and help us knw if we should select them for our exclusive community of enthusiasts . the community is for ${topic} . Only ask technical questions . Give an ARRAY of 5 json MCQs`,
+      ["MCQ no 1", "MCQ no 2", "MCQ no3", "MCQ no4", "MCQ no5"],
       {
         question: "question",
         explanation: "Explanation of answer",
@@ -44,4 +43,9 @@ export const quizController = async (req: Request, res: Response) => {
     console.error("elle gpt error", error);
     res.status(500).json({ error: "An unexpected error occurred." });
   }
+};
+
+export const createEmbedding = async (req: Request, res: Response) => {
+  ReadDocumentContentToSupbaseDBTable();
+  res.status(200);
 };
