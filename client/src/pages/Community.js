@@ -14,10 +14,6 @@ import supabase from "../services/supabase";
 import Room from "./Room";
 import { useLocation } from "wouter";
 import { toast } from "../services/push";
-// Import Push SDK & Ethers
-import { PushAPI } from "@pushprotocol/restapi";
-import { ethers } from "ethers";
-
 function Event() {
   const { address, isConnected } = useAccount();
   const [location, setLocation] = useLocation();

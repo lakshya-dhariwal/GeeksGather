@@ -7,8 +7,8 @@ import supabase from "../services/supabase";
 
 function QuizPage() {
   const [questions, setQuestions] = useState(null);
-  const [address] = useAccount();
-  const [match, params] = useRoute("/community/:id");
+  const { address } = useAccount();
+  const [match, params] = useRoute("/community/:id/quiz");
   const getQuiz = async () => {
     // const data = await axios.post(API + "/gpt/quiz", { topic: "ReactJS" });
     // setQuestions(data?.data?.quiz);
@@ -18,19 +18,28 @@ function QuizPage() {
   useEffect(() => {
     getQuiz();
   }, []);
+  const [event, setEvent] = React.useState([]);
+  const fetchEvent = async () => {
+    const { data, error } = await supabase
+      .from("Events")
+      .select("*")
+      .eq("id", params.id);
+    console.log({ error, data });
+    setEvent(data?.[0]);
+  };
+  useEffect(() => {
+    fetchEvent();
+  }, []);
   const setQuizCompleted = async (percentage) => {
     if (percentage > 50) {
       console.log("You passed");
       //todo push notif
+      console.log({ id: params.id, address });
       const { data, error } = await supabase
         .from("Events")
-        .update({
-          quiz_completed: supabase.sql(
-            `array_append(quiz_completed, '${address}')`
-          ),
-        })
-        .match({ id: params.id });
-      console.log(data);
+        .update([{ quiz_completed: [address, ...event.quiz_completed] }])
+        .eq("id", params.id);
+      console.log({ data, error });
     } else {
       console.log("You failed");
     }
@@ -61,7 +70,6 @@ function QuizPage() {
     <div className="max-w-[700px] mt-[10rem] mx-auto bg-[#0E1729]  relative group rounded-xl p-3 pt-3 w-fit border border-slate-800 ">
       {questions ? (
         <div>
-          {" "}
           <Quiz
             quiz={{
               quizTitle: "Prove your Technical expertise to join the community",
@@ -71,7 +79,7 @@ function QuizPage() {
             onComplete={handleResult}
             showDefaultResult={false}
             customResultPage={renderCustomResultPage}
-          />{" "}
+          />
         </div>
       ) : null}
     </div>
