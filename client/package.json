@@ -17,7 +17,7 @@
     "browserify-zlib": "^0.2.0",
     "connectkit": "^1.5.3",
     "crypto": "^1.0.1",
-    "ethers": "^6.8.0",
+    "ethers": "^5.7",
     "framer-motion": "^10.16.4",
     "https-browserify": "^1.0.0",
     "lodash": "^4.17.21",
