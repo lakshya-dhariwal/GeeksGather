@@ -3,6 +3,7 @@ import { useLocation, useRoute } from "wouter";
 import Spinner from "../components/Spinner";
 import supabase from "../services/supabase";
 import { useAccount } from "wagmi";
+import { Chat, darkChatTheme } from "@pushprotocol/uiweb";
 
 function Room() {
   const [location, setLocation] = useLocation();
@@ -28,13 +29,16 @@ function Room() {
     }
   }, [event]);
   return (
-    <div className="w-[100vw]  p-4">
+    <div className="w-[800px] mx-auto mt-[5rem]  p-4">
       {event.length > 0 ? (
         <div className="w-full h-[800px] flex items-center justify-center">
           <Spinner size="4rem" />
         </div>
       ) : (
-        <h1>Room Enter</h1>
+        <>
+          <h1 className="text-[3rem] text-white">{event?.name}'s Community</h1>
+          <Chat account={address} env="staging" theme={darkChatTheme} />
+        </>
       )}
     </div>
   );

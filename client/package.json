@@ -3,37 +3,46 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@huddle01/huddle01-client": "^0.0.10",
-    "@huddle01/react": "^0.0.10",
     "@lighthouse-web3/sdk": "^0.2.3",
+    "@pushprotocol/restapi": "^1.4.28",
+    "@pushprotocol/socket": "^0.5.2",
+    "@pushprotocol/uiembed": "^0.2.0",
+    "@pushprotocol/uiweb": "^1.1.15",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "assert": "^2.1.0",
     "avvvatars-react": "^0.4.2",
     "axios": "^1.5.1",
+    "browserify-zlib": "^0.2.0",
     "connectkit": "^1.2.3",
     "crypto": "^1.0.1",
-    "ethers": "^5",
-    "framer-motion": "^10.12.7",
+    "ethers": "^5.6",
+    "framer-motion": "^10.16.4",
+    "https-browserify": "^1.0.0",
     "lodash": "^4.17.21",
     "qrcode": "^1.5.3",
     "react": "^18.2.0",
+    "react-app-rewired": "^2.2.1",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
     "react-qr-reader": "^2.2.1",
     "react-quiz-component": "^0.5.1",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
+    "stream-http": "^3.2.0",
+    "styled-components": "^6.1.0",
     "tailwindcss-animate": "^1.0.5",
+    "url": "^0.11.3",
     "viem": "^1.16.6",
     "wagmi": "^0.12.12",
     "web-vitals": "^2.1.4",
     "wouter": "^2.10.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject"
   },
   "eslintConfig": {
     "extends": [
@@ -55,7 +64,10 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.14",
+    "crypto-browserify": "^3.12.0",
+    "path-browserify": "^1.0.1",
     "postcss": "^8.4.23",
+    "stream-browserify": "^3.0.0",
     "tailwindcss": "^3.3.2"
   }
 }
