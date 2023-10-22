@@ -11,7 +11,12 @@ import { useLocation, useRoute } from "wouter";
 import Spinner from "../components/Spinner";
 import { toast } from "../services/push";
 import supabase from "../services/supabase";
-import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi";
+import {
+  usePrepareContractWrite,
+  useContractWrite,
+  useWaitForTransaction,
+  useContractRead,
+} from "wagmi";
 import AllowListABI from "../ABI/allowlist.json";
 
 const AllowListScrollConfig = {
@@ -23,6 +28,7 @@ const AllowListScrollConfig = {
 function Event() {
   const { address, isConnected } = useAccount();
   const [location, setLocation] = useLocation();
+  const [allowlisted, setAllowlisted] = React.useState(false);
   const [match, params] = useRoute("/community/:id");
   console.log({ param: params.id });
   const [event, setEvent] = React.useState([]);
@@ -55,6 +61,13 @@ function Event() {
     return data;
   }
 
+  const { data: isAdded } = useContractRead({
+    ...AllowListScrollConfig,
+    functionName: "isEligible",
+    watch: true,
+    args: [parseInt(params.id), address],
+  });
+
   const { config: addToAllowListCongif } = usePrepareContractWrite({
     ...AllowListScrollConfig,
     functionName: "addToAllowlist",
@@ -69,6 +82,7 @@ function Event() {
     error: AddAllowlistError,
   } = useContractWrite(addToAllowListCongif);
 
+  console.log(isAddLoading, isAddStarted, AddAllowlistError);
   const {
     data: txData,
     isSuccess: txSuccess,
@@ -76,6 +90,8 @@ function Event() {
   } = useWaitForTransaction({
     hash: addToAllowlistData?.hash,
   });
+
+  console.log(txData, txSuccess, txError);
 
   const githubZk = async () => {
     if (!auth) return await signInGithub();
@@ -115,6 +131,15 @@ function Event() {
     console.log({ zkProof });
     setEligiblity(true);
   };
+
+  React.useEffect(() => {
+    if (isAdded) {
+      setAllowlisted(true);
+    } else {
+      setAllowlisted(false);
+    }
+  }, [isAdded]);
+
   return (
     <div className="w-[100vw]  p-4">
       {event.length > 0 ? (
@@ -320,7 +345,7 @@ function Event() {
                     .update({ allowlist: [address, ...event.allowlist] })
                     .match({ id: params.id });
                   console.log({ data });
-                  add?.()
+                  add?.();
                   //todo push notif add to allowlist
                   // const userAlice = await PushAPI.initialize(address, {
                   //   env: "staging",
@@ -333,7 +358,16 @@ function Event() {
                   // });
                 }}
               >
-                <h1 className="">Join Community</h1>
+                <h1
+                  className={`${
+                    isAdded
+                      ? "pointer-events-none text-green-400 cursor-pointer border-green-400"
+                      : "border-gray-600"
+                  } `}
+                >
+                  {" "}
+                  {isAdded ? "Go to Chat" : "Join Community"}{" "}
+                </h1>
               </div>
             )}
         </div>
