@@ -1,4 +1,4 @@
-import { ReadDocumentContentToSupbaseDBTable } from "../../lib/embeddings";
+import { generateEmbeddings } from "../../lib/embeddings";
 import { strict_output } from "../../lib/gpt";
 import { Request, Response } from "express";
 
@@ -10,7 +10,9 @@ export const quizController = async (req: Request, res: Response) => {
 
     const a = await strict_output(
       `You are a helpful AI that is assigned to Create a set of multiple-choice questions (MCQs) about ${topic}. These questions will be used to evaluate the technical knowledge of individuals applying to join the ReactJS community. For each question, provide four answer options, with one correct answer. Ensure that each answer and question is concise, with answers not exceeding 15 words . These question test ability and knowledge about the topic and help us knw if we should select them for our exclusive community of enthusiasts . the community is for ${topic} . Only ask technical questions . Give an ARRAY of 5 json MCQs`,
-      ["MCQ no 1", "MCQ no 2", "MCQ no3", "MCQ no4", "MCQ no5"],
+      new Array(amount).fill(
+        `You are to generate a random technical open-ended questions about ${topic}`
+      ),
       {
         question: "question",
         explanation: "Explanation of answer",
@@ -46,6 +48,6 @@ export const quizController = async (req: Request, res: Response) => {
 };
 
 export const createEmbedding = async (req: Request, res: Response) => {
-  ReadDocumentContentToSupbaseDBTable();
+  generateEmbeddings();
   res.status(200);
 };
