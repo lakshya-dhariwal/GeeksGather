@@ -1,19 +1,17 @@
 import Avvvatars from "avvvatars-react";
 import axios from "axios";
 import React, { useEffect } from "react";
+import { AiFillCheckCircle } from "react-icons/ai";
 import { BiLinkAlt } from "react-icons/bi";
 import { BsGithub } from "react-icons/bs";
-import { AiFillCheckCircle } from "react-icons/ai";
 import { HiOutlineStatusOnline } from "react-icons/hi";
-import { ImTicket } from "react-icons/im";
 import { MdQuiz } from "react-icons/md";
 import { useAccount } from "wagmi";
-import { useRoute } from "wouter";
+import { useLocation, useRoute } from "wouter";
 import Spinner from "../components/Spinner";
-import supabase from "../services/supabase";
-import Room from "./Room";
-import { useLocation } from "wouter";
 import { toast } from "../services/push";
+import supabase from "../services/supabase";
+
 function Event() {
   const { address, isConnected } = useAccount();
   const [location, setLocation] = useLocation();
@@ -88,7 +86,7 @@ function Event() {
   };
   return (
     <div className="w-[100vw]  p-4">
-      {!event ? (
+     {event.length > 0 ? (
         <div className="w-full h-[800px] flex items-center justify-center">
           <Spinner size="4rem" />
         </div>

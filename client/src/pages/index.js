@@ -53,7 +53,7 @@ function Home() {
               >
                 Discover Communities
               </h2>
-              {!Events ? (
+              {!Events.length > 0 ? (
                 <div className="w-full h-[800px] flex items-center justify-center">
                   <Spinner size="4rem" />
                 </div>
@@ -83,7 +83,7 @@ function Home() {
                 >
                   GG says GM!
                 </h2>
-                {!Events ? (
+                {!Events.length > 0 ? (
                   <div className="w-full h-[800px] flex items-center justify-center">
                     <Spinner size="4rem" />
                   </div>
