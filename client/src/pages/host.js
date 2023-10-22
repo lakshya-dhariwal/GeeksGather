@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useAccount } from "wagmi";
 import toast from "react-hot-toast";
-import AddCommunity from "../components/AddCommunity";
+// import AddCommunity from "../components/AddCommunity";
 
 function Host() {
   const { address, isConnected } = useAccount();
@@ -54,7 +54,7 @@ function Host() {
         </div>
       </section>
 
-      {showForm && <AddCommunity scrollRef={scrollRef} />}
+      {/* {showForm && <AddCommunity scrollRef={scrollRef} />} */}
     </div>
   );
 }

@@ -11,6 +11,14 @@ import { useLocation, useRoute } from "wouter";
 import Spinner from "../components/Spinner";
 import { toast } from "../services/push";
 import supabase from "../services/supabase";
+import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from "wagmi";
+import AllowListABI from "../ABI/allowlist.json";
+
+const AllowListScrollConfig = {
+  address: "0x9de5ad847f0ce0313a027550bd1605991cc7f7a4",
+  abi: AllowListABI,
+  chainId: 534351,
+};
 
 function Event() {
   const { address, isConnected } = useAccount();
@@ -46,6 +54,29 @@ function Event() {
 
     return data;
   }
+
+  const { config: addToAllowListCongif } = usePrepareContractWrite({
+    ...AllowListScrollConfig,
+    functionName: "addToAllowlist",
+    args: [parseInt(params.id), address],
+  });
+
+  const {
+    data: addToAllowlistData,
+    write: add,
+    isLoading: isAddLoading,
+    isSuccess: isAddStarted,
+    error: AddAllowlistError,
+  } = useContractWrite(addToAllowListCongif);
+
+  const {
+    data: txData,
+    isSuccess: txSuccess,
+    error: txError,
+  } = useWaitForTransaction({
+    hash: addToAllowlistData?.hash,
+  });
+
   const githubZk = async () => {
     if (!auth) return await signInGithub();
     const user_name = auth.user.user_metadata.user_name;
@@ -86,7 +117,7 @@ function Event() {
   };
   return (
     <div className="w-[100vw]  p-4">
-     {event.length > 0 ? (
+      {event.length > 0 ? (
         <div className="w-full h-[800px] flex items-center justify-center">
           <Spinner size="4rem" />
         </div>
@@ -289,6 +320,7 @@ function Event() {
                     .update({ allowlist: [address, ...event.allowlist] })
                     .match({ id: params.id });
                   console.log({ data });
+                  add?.()
                   //todo push notif add to allowlist
                   // const userAlice = await PushAPI.initialize(address, {
                   //   env: "staging",
