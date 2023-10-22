@@ -61,6 +61,12 @@ function Event() {
     return data;
   }
 
+
+  const checkGuild = async()=>{
+    const response = await axios.get(`https://api.guild.xyz/v1/guild/member/55482/${address}`)
+    const data  =await response.JSON()
+  }
+  
   const { data: isAdded } = useContractRead({
     ...AllowListScrollConfig,
     functionName: "isEligible",
@@ -131,6 +137,12 @@ function Event() {
     console.log({ zkProof });
     setEligiblity(true);
   };
+
+  const handleAdd= ()=>{
+    if(!allowlisted){
+      add?.()
+    }
+  }
 
   React.useEffect(() => {
     if (isAdded) {
@@ -345,7 +357,9 @@ function Event() {
                     .update({ allowlist: [address, ...event.allowlist] })
                     .match({ id: params.id });
                   console.log({ data });
-                  add?.();
+                  handleAdd()
+                  
+
                   //todo push notif add to allowlist
                   // const userAlice = await PushAPI.initialize(address, {
                   //   env: "staging",

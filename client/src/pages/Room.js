@@ -3,17 +3,14 @@ import { useLocation, useRoute } from "wouter";
 import Spinner from "../components/Spinner";
 import supabase from "../services/supabase";
 import { useAccount } from "wagmi";
-// import {
-//   ChatUIProvider,
-//   ChatViewComponent,
-//   darkChatTheme,
-// } from "@pushprotocol/uiweb";
+ 
 
 function Room() {
   const [location, setLocation] = useLocation();
   const [event, setEvent] = React.useState([]);
   const { address } = useAccount();
   const [match, params] = useRoute("/community/:id/room");
+
   const fetchEvent = async () => {
     const { data, error } = await supabase
       .from("Events")
