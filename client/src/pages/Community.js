@@ -289,7 +289,7 @@ function Event() {
                     .update({ allowlist: [address, ...event.allowlist] })
                     .match({ id: params.id });
                   console.log({ data });
-                  //todo push notif
+                  //todo push notif add to allowlist
                   // const userAlice = await PushAPI.initialize(address, {
                   //   env: "staging",
                   // });

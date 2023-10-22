@@ -26,6 +26,7 @@ function Room() {
     fetchEvent();
   }, []);
   useEffect(() => {
+    //todo  allowlist check
     if (event) {
       if (event?.allowlist?.includes(address)) return;
     } else {
